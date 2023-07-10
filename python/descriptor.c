@@ -1380,6 +1380,18 @@ static PyObject* PyUpb_MethodDescriptor_GetOutputType(PyObject* self,
   return PyUpb_Descriptor_Get(upb_MethodDef_OutputType(m));
 }
 
+static PyObject* PyUpb_MethodDescriptor_GetServerStreaming(PyObject* self,
+                                                           void* closure) {
+  const upb_MethodDef* m = PyUpb_MethodDescriptor_GetDef(self);
+  return upb_MethodDef_ServerStreaming(m) ? Py_True : Py_False;
+}
+
+static PyObject* PyUpb_MethodDescriptor_GetClientStreaming(PyObject* self,
+                                                           void* closure) {
+  const upb_MethodDef* m = PyUpb_MethodDescriptor_GetDef(self);
+  return upb_MethodDef_ClientStreaming(m) ? Py_True : Py_False;
+}
+
 static PyObject* PyUpb_MethodDescriptor_GetOptions(PyObject* _self,
                                                    PyObject* args) {
   PyUpb_DescriptorBase* self = (void*)_self;
@@ -1405,6 +1417,10 @@ static PyGetSetDef PyUpb_MethodDescriptor_Getters[] = {
     {"input_type", PyUpb_MethodDescriptor_GetInputType, NULL, "Input type",
      NULL},
     {"output_type", PyUpb_MethodDescriptor_GetOutputType, NULL, "Output type",
+     NULL},
+    {"client_streaming", PyUpb_MethodDescriptor_GetClientStreaming, NULL, "Client streaming",
+     NULL},
+    {"server_streaming", PyUpb_MethodDescriptor_GetServerStreaming, NULL, "Server streaming",
      NULL},
     {NULL}};
 
